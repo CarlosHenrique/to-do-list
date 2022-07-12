@@ -4,10 +4,12 @@ import {
   Text,
   TextInput,
   TouchableWithoutFeedback,
+  TouchableOpacity,
   FlatList,
   StyleSheet,
   View,
 } from "react-native";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 const ToDo = () => {
   const [task, updateTask] = useState("");
@@ -20,8 +22,17 @@ const ToDo = () => {
     }
   };
 
+  const removeTask = (tasks, item) => {
+    updateTasks(tasks.filter((task) => task != item));
+  };
+
   const handleRenderTask = ({ item }) => (
-    <Text style={styles.item}>{item}</Text>
+    <View style={styles.item}>
+      <Text>{item}</Text>
+      <TouchableOpacity onPress={() => removeTask(tasks, item)}>
+        <Ionicons name="trash" size={24} color="red" />
+      </TouchableOpacity>
+    </View>
   );
 
   return (
@@ -89,6 +100,8 @@ const styles = StyleSheet.create({
     borderColor: "#dcdcdc",
     padding: 10,
     marginTop: 15,
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   form: {
     flexDirection: "row",
